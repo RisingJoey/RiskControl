@@ -22,7 +22,7 @@ function varargout = FundTrader(varargin)
 
 % Edit the above text to modify the response to help FundTrader
 
-% Last Modified by GUIDE v2.5 04-Jun-2019 23:45:11
+% Last Modified by GUIDE v2.5 06-Jun-2019 00:14:25
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -697,16 +697,16 @@ for i=1:length(acctId)
     end
 end
 
-% --- Executes on button press in MMSIncrementUp.
-function MMSIncrementUp_Callback(hObject, eventdata, handles)
-% hObject    handle to MMSIncrementUp (see GCBO)
+% --- Executes on button press in IncSellBatch.
+function IncSellBatch_Callback(hObject, eventdata, handles)
+% hObject    handle to IncSellBatch (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in MMSIncrementDown.
-function MMSIncrementDown_Callback(hObject, eventdata, handles)
-% hObject    handle to MMSIncrementDown (see GCBO)
+% --- Executes on button press in DecSellBatch.
+function DecSellBatch_Callback(hObject, eventdata, handles)
+% hObject    handle to DecSellBatch (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
@@ -749,18 +749,18 @@ end
 
 
 
-function edit3_Callback(hObject, eventdata, handles)
-% hObject    handle to edit3 (see GCBO)
+function IFCont_Callback(hObject, eventdata, handles)
+% hObject    handle to IFCont (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit3 as text
-%        str2double(get(hObject,'String')) returns contents of edit3 as a double
+% Hints: get(hObject,'String') returns contents of IFCont as text
+%        str2double(get(hObject,'String')) returns contents of IFCont as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit3_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit3 (see GCBO)
+function IFCont_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to IFCont (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -772,18 +772,18 @@ end
 
 
 
-function edit4_Callback(hObject, eventdata, handles)
-% hObject    handle to edit4 (see GCBO)
+function ICCont_Callback(hObject, eventdata, handles)
+% hObject    handle to ICCont (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit4 as text
-%        str2double(get(hObject,'String')) returns contents of edit4 as a double
+% Hints: get(hObject,'String') returns contents of ICCont as text
+%        str2double(get(hObject,'String')) returns contents of ICCont as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit4_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit4 (see GCBO)
+function ICCont_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to ICCont (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -795,18 +795,18 @@ end
 
 
 
-function edit5_Callback(hObject, eventdata, handles)
-% hObject    handle to edit5 (see GCBO)
+function IFLimitLo_Callback(hObject, eventdata, handles)
+% hObject    handle to IFLimitLo (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit5 as text
-%        str2double(get(hObject,'String')) returns contents of edit5 as a double
+% Hints: get(hObject,'String') returns contents of IFLimitLo as text
+%        str2double(get(hObject,'String')) returns contents of IFLimitLo as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit5_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit5 (see GCBO)
+function IFLimitLo_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to IFLimitLo (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -818,18 +818,18 @@ end
 
 
 
-function edit6_Callback(hObject, eventdata, handles)
-% hObject    handle to edit6 (see GCBO)
+function ICLimitLo_Callback(hObject, eventdata, handles)
+% hObject    handle to ICLimitLo (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit6 as text
-%        str2double(get(hObject,'String')) returns contents of edit6 as a double
+% Hints: get(hObject,'String') returns contents of ICLimitLo as text
+%        str2double(get(hObject,'String')) returns contents of ICLimitLo as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit6_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit6 (see GCBO)
+function ICLimitLo_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to ICLimitLo (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -841,18 +841,18 @@ end
 
 
 
-function edit7_Callback(hObject, eventdata, handles)
-% hObject    handle to edit7 (see GCBO)
+function IFLimitHi_Callback(hObject, eventdata, handles)
+% hObject    handle to IFLimitHi (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit7 as text
-%        str2double(get(hObject,'String')) returns contents of edit7 as a double
+% Hints: get(hObject,'String') returns contents of IFLimitHi as text
+%        str2double(get(hObject,'String')) returns contents of IFLimitHi as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit7_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit7 (see GCBO)
+function IFLimitHi_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to IFLimitHi (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -864,18 +864,18 @@ end
 
 
 
-function edit8_Callback(hObject, eventdata, handles)
-% hObject    handle to edit8 (see GCBO)
+function ICLimitHi_Callback(hObject, eventdata, handles)
+% hObject    handle to ICLimitHi (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit8 as text
-%        str2double(get(hObject,'String')) returns contents of edit8 as a double
+% Hints: get(hObject,'String') returns contents of ICLimitHi as text
+%        str2double(get(hObject,'String')) returns contents of ICLimitHi as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit8_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit8 (see GCBO)
+function ICLimitHi_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to ICLimitHi (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -887,18 +887,18 @@ end
 
 
 
-function edit9_Callback(hObject, eventdata, handles)
-% hObject    handle to edit9 (see GCBO)
+function IHCont_Callback(hObject, eventdata, handles)
+% hObject    handle to IHCont (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit9 as text
-%        str2double(get(hObject,'String')) returns contents of edit9 as a double
+% Hints: get(hObject,'String') returns contents of IHCont as text
+%        str2double(get(hObject,'String')) returns contents of IHCont as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit9_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit9 (see GCBO)
+function IHCont_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to IHCont (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -910,18 +910,18 @@ end
 
 
 
-function edit10_Callback(hObject, eventdata, handles)
-% hObject    handle to edit10 (see GCBO)
+function IHLimitLo_Callback(hObject, eventdata, handles)
+% hObject    handle to IHLimitLo (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit10 as text
-%        str2double(get(hObject,'String')) returns contents of edit10 as a double
+% Hints: get(hObject,'String') returns contents of IHLimitLo as text
+%        str2double(get(hObject,'String')) returns contents of IHLimitLo as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit10_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit10 (see GCBO)
+function IHLimitLo_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to IHLimitLo (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -933,18 +933,18 @@ end
 
 
 
-function edit11_Callback(hObject, eventdata, handles)
-% hObject    handle to edit11 (see GCBO)
+function IHLimitHi_Callback(hObject, eventdata, handles)
+% hObject    handle to IHLimitHi (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit11 as text
-%        str2double(get(hObject,'String')) returns contents of edit11 as a double
+% Hints: get(hObject,'String') returns contents of IHLimitHi as text
+%        str2double(get(hObject,'String')) returns contents of IHLimitHi as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit11_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit11 (see GCBO)
+function IHLimitHi_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to IHLimitHi (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -955,50 +955,64 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton19.
-function pushbutton19_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton19 (see GCBO)
+% --- Executes on button press in MMSStartAll.
+function MMSStartAll_Callback(hObject, eventdata, handles)
+% hObject    handle to MMSStartAll (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton20.
-function pushbutton20_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton20 (see GCBO)
+% --- Executes on button press in MMSStopAll.
+function MMSStopAll_Callback(hObject, eventdata, handles)
+% hObject    handle to MMSStopAll (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton21.
-function pushbutton21_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton21 (see GCBO)
+% --- Executes on button press in IncSell.
+function IncSell_Callback(hObject, eventdata, handles)
+% hObject    handle to IncSell (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton22.
-function pushbutton22_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton22 (see GCBO)
+% --- Executes on button press in IncBuy.
+function IncBuy_Callback(hObject, eventdata, handles)
+% hObject    handle to IncBuy (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton23.
-function pushbutton23_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton23 (see GCBO)
+% --- Executes on button press in DecSell.
+function DecSell_Callback(hObject, eventdata, handles)
+% hObject    handle to DecSell (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton24.
-function pushbutton24_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton24 (see GCBO)
+% --- Executes on button press in DecBuy.
+function DecBuy_Callback(hObject, eventdata, handles)
+% hObject    handle to DecBuy (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in pushbutton25.
-function pushbutton25_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton25 (see GCBO)
+% --- Executes on button press in RefreshLimit.
+function RefreshLimit_Callback(hObject, eventdata, handles)
+% hObject    handle to RefreshLimit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in IncBuyBatch.
+function IncBuyBatch_Callback(hObject, eventdata, handles)
+% hObject    handle to IncBuyBatch (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in DecBuyBatch.
+function DecBuyBatch_Callback(hObject, eventdata, handles)
+% hObject    handle to DecBuyBatch (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
