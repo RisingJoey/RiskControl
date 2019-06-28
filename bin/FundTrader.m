@@ -57,7 +57,7 @@ SysConnect
 
 try
     m=load('D:\work\FundMonitorParallel\appdata\Data.mat');
-    data=m.data(:,[1:4 7:13])
+    data=m.data(:,[1:4 7:13]);
     set(handles.FundMonitor, 'Data', data);
     save('..\appdata\Data.mat','data')
     load('D:\work\FundMonitorParallel\appdata\StkAcct.mat');
@@ -68,6 +68,18 @@ try
     end
 catch ex
 end
+
+%合约、上下限
+Basis.ihCont = get(handles.IHCont, 'String');
+Basis.ifCont = get(handles.IFCont, 'String');
+Basis.icCont = get(handles.ICCont, 'String');
+Basis.ihLimitLo = str2double(get(handles.IHLimitLo, 'String'));
+Basis.ifLimitLo = str2double(get(handles.IFLimitLo, 'String'));
+Basis.icLimitLo = str2double(get(handles.ICLimitLo, 'String'));
+Basis.ihLimitHi = str2double(get(handles.IHLimitHi, 'String'));
+Basis.ifLimitHi = str2double(get(handles.IFLimitHi, 'String'));
+Basis.icLimitHi = str2double(get(handles.ICLimitHi, 'String'));
+handles.Basis = Basis;
 
 % 创建时钟
 handles.timer = timer();
@@ -88,13 +100,12 @@ guidata(hObject, handles);
 % 定时查询基金价格、净值，刷新表格
 function hedge_callback(hObject, eventdata, handles)
 %tic;
-t=datevec(SysCurrentTime); tn=datenum(t); dv=datevec(t); %当前时间
+t=datevec(SysCurrentTime); dv=datevec(t); %当前时间
 sec=dv(4)*3600+dv(5)*60;
 if sec<34200||sec>54000 % <9:30||>15:00
     set(handles.StartMonitor, 'Enable', 'on');
     set(handles.StopMonitor, 'Enable', 'off');
     set(handles.ArbiTrade, 'Enable', 'off');
-    set(handles.MMSOffer, 'Enable', 'off');
     set(handles.StopTrade, 'Enable', 'off');
     stop(hObject); %如不停止，则可24小时运行
     return;
@@ -226,9 +237,8 @@ function MMSStart_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 if isfield(handles,'selected')
     load('..\appdata\Data.mat');
-info.acctId=data(handles.selected,4);
-
-info.offerStatus='1';
+    info.acctId=data(handles.selected,4);
+    info.offerStatus='1';
     flag=MMS_ModifyOrderStatus2(info);
 end
 
@@ -572,7 +582,18 @@ function RefreshLimit_Callback(hObject, eventdata, handles)
 % hObject    handle to RefreshLimit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+%合约、上下限
+Basis.ihCont = get(handles.IHCont, 'String');
+Basis.ifCont = get(handles.IFCont, 'String');
+Basis.icCont = get(handles.ICCont, 'String');
+Basis.ihLimitLo = str2double(get(handles.IHLimitLo, 'String'));
+Basis.ifLimitLo = str2double(get(handles.IFLimitLo, 'String'));
+Basis.icLimitLo = str2double(get(handles.ICLimitLo, 'String'));
+Basis.ihLimitHi = str2double(get(handles.IHLimitHi, 'String'));
+Basis.ifLimitHi = str2double(get(handles.IFLimitHi, 'String'));
+Basis.icLimitHi = str2double(get(handles.ICLimitHi, 'String'));
+handles.Basis = Basis;
+guidata(hObject, handles);
 
 % --- Executes on button press in IncBuyBatch.
 function IncBuyBatch_Callback(hObject, eventdata, handles)
