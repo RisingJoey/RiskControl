@@ -22,7 +22,7 @@ function varargout = FundConfig(varargin)
 
 % Edit the above text to modify the response to help FundConfig
 
-% Last Modified by GUIDE v2.5 12-Feb-2019 09:12:13
+% Last Modified by GUIDE v2.5 29-Jun-2019 09:03:45
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -73,9 +73,9 @@ function varargout = FundConfig_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 
 
-% --- Executes on button press in Save.
-function Save_Callback(hObject, eventdata, handles)
-% hObject    handle to Save (see GCBO)
+% --- Executes on button press in AddFund.
+function AddFund_Callback(hObject, eventdata, handles)
+% hObject    handle to AddFund (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 stkId = get(handles.StkId, 'String');
@@ -170,21 +170,6 @@ if ~errorflag
     set(h, 'Visible', 'off');
 end
 
-% --- Executes on button press in Cancel.
-function Cancel_Callback(hObject, eventdata, handles)
-% hObject    handle to Cancel (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-h = gcf;
-if isfield(handles, 'FundInfo')
-    handles.changed = 0;
-    guidata(h, handles);
-    uiresume(h);
-    set(h, 'Visible', 'off');
-else
-    delete(h);
-end
-
 
 % --- Executes when user attempts to close FigFundConfig.
 function FigFundConfig_CloseRequestFcn(hObject, eventdata, handles)
@@ -226,40 +211,19 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on selection change in ExchId.
-function ExchId_Callback(hObject, eventdata, handles)
-% hObject    handle to ExchId (see GCBO)
+
+function BatchName_Callback(hObject, eventdata, handles)
+% hObject    handle to BatchName (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns ExchId contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from ExchId
+% Hints: get(hObject,'String') returns contents of BatchName as text
+%        str2double(get(hObject,'String')) returns contents of BatchName as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function ExchId_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to ExchId (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-function StkName_Callback(hObject, eventdata, handles)
-% hObject    handle to StkName (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of StkName as text
-%        str2double(get(hObject,'String')) returns contents of StkName as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function StkName_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to StkName (see GCBO)
+function BatchName_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to BatchName (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -270,138 +234,30 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on selection change in StkAcct.
-function StkAcct_Callback(hObject, eventdata, handles)
-% hObject    handle to StkAcct (see GCBO)
+% --- Executes on button press in DeleteFund.
+function DeleteFund_Callback(hObject, eventdata, handles)
+% hObject    handle to DeleteFund (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns StkAcct contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from StkAcct
 
-
-% --- Executes during object creation, after setting all properties.
-function StkAcct_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to StkAcct (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-load('..\appdata\StkAcct.mat');
-set(hObject, 'String', StkAcct(:,1));
-
-
-function RedemptionId_Callback(hObject, eventdata, handles)
-% hObject    handle to RedemptionId (see GCBO)
+% --- Executes on selection change in listbox3.
+function listbox3_Callback(hObject, eventdata, handles)
+% hObject    handle to listbox3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of RedemptionId as text
-%        str2double(get(hObject,'String')) returns contents of RedemptionId as a double
+% Hints: contents = cellstr(get(hObject,'String')) returns listbox3 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from listbox3
 
 
 % --- Executes during object creation, after setting all properties.
-function RedemptionId_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to RedemptionId (see GCBO)
+function listbox3_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to listbox3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-% --- Executes on selection change in Index.
-function Index_Callback(hObject, eventdata, handles)
-% hObject    handle to Index (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns Index contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from Index
-
-
-% --- Executes during object creation, after setting all properties.
-function Index_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to Index (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-function TargetAmt_Callback(hObject, eventdata, handles)
-% hObject    handle to TargetAmt (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of TargetAmt as text
-%        str2double(get(hObject,'String')) returns contents of TargetAmt as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function TargetAmt_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to TargetAmt (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function BuyRatio_Callback(hObject, eventdata, handles)
-% hObject    handle to BuyRatio (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of BuyRatio as text
-%        str2double(get(hObject,'String')) returns contents of BuyRatio as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function BuyRatio_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to BuyRatio (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function SellRatio_Callback(hObject, eventdata, handles)
-% hObject    handle to SellRatio (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of SellRatio as text
-%        str2double(get(hObject,'String')) returns contents of SellRatio as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function SellRatio_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to SellRatio (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
+% Hint: listbox controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');

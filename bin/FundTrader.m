@@ -22,7 +22,7 @@ function varargout = FundTrader(varargin)
 
 % Edit the above text to modify the response to help FundTrader
 
-% Last Modified by GUIDE v2.5 06-Jun-2019 00:14:25
+% Last Modified by GUIDE v2.5 28-Jun-2019 22:51:56
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -122,7 +122,7 @@ try
     for i=length(acctId)
         info.acctId=acctId{i};
         model=MMS_GetMarketMakerPriceModel2(info);
-    end;
+    end
 
     %指数价格
     %         indexId = {'000300','000905','000016','000010','000018','000825','000852','000860','000865','399330','399967','399975'};
@@ -178,7 +178,7 @@ if isfield(handles, 'timer') && isvalid(handles.timer)
     stop(handles.timer);
 end
 load('D:\work\FundMonitorParallel\appdata\StkAcct.mat');
-load('D:\work\FundMonitorParallel\appdata\Data.mat');
+load('..\appdata\Data.mat');
 acctId=unique(data(:,4));
 [lia locb]=ismember(acctId,StkAcct(:,1));
 for i=1:length(acctId)
@@ -237,9 +237,10 @@ function MMSStart_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 if isfield(handles,'selected')
     load('..\appdata\Data.mat');
+    info.stkId=data(handles.selected,1);
     info.acctId=data(handles.selected,4);
     info.offerStatus='1';
-    flag=MMS_ModifyOrderStatus2(info);
+    MMS_ModifyOrderStatus2(info);
 end
 
 % --- Executes on button press in MMSStop.
@@ -247,16 +248,45 @@ function MMSStop_Callback(hObject, eventdata, handles)
 % hObject    handle to MMSStop (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-info.optId='88240';info.offerStatus='2';
-acctId={'000000000101','000000000109'};
-for i=1:length(acctId)
-    AcctLogin(acctId{i},'666666');
-    info.acctId=acctId{i};
-    flag=MMS_ModifyOrderStatus2(info);
-    switch flag
-        case 0, disp([acctId{i} '双边报价停止成功']);
-        otherwise, disp([acctId{i} '双边报价停止失败']);
-    end
+if isfield(handles,'selected')
+    load('..\appdata\Data.mat');
+    info.stkId=data(handles.selected,1);
+    info.acctId=data(handles.selected,4);
+    info.offerStatus='0';
+    MMS_ModifyOrderStatus2(info);
+end
+
+
+% --- Executes on button press in MMSStartAll.
+function MMSStartAll_Callback(hObject, eventdata, handles)
+% hObject    handle to MMSStartAll (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+load('d:\work\FundMonitorParallel\appdata\Data.mat')
+ch=char(data(:,1));
+lia=ismember(cellstr(ch(:,1:3)),{'511' '518'});
+data(lia,:)=[];
+for i=length(data(:,1))
+    info.stkId=data{i,1};
+    info.acctId=data{i,4};
+    info.offerStatus='1';
+    MMS_ModifyOrderStatus2(info);
+end
+
+% --- Executes on button press in MMSStopAll.
+function MMSStopAll_Callback(hObject, eventdata, handles)
+% hObject    handle to MMSStopAll (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+load('d:\work\FundMonitorParallel\appdata\Data.mat')
+ch=char(data(:,1));
+lia=ismember(cellstr(ch(:,1:3)),{'511' '518'});
+data(lia,:)=[];
+for i=length(data(:,1))
+    info.stkId=data{i,1};
+    info.acctId=data{i,4};
+    info.offerStatus='0';
+    MMS_ModifyOrderStatus2(info);
 end
 
 % --- Executes on button press in IncSellBatch.
@@ -516,39 +546,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
-% --- Executes on button press in MMSStartAll.
-function MMSStartAll_Callback(hObject, eventdata, handles)
-% hObject    handle to MMSStartAll (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-load('d:\work\FundMonitorParallel\appdata\Data.mat')
-ch=char(data(:,1));
-lia=ismember(cellstr(ch(:,1:3)),{'511' '518'});
-data(lia,:)=[];
-for i=length(data(:,1))
-    info.stkId=data{i,1};
-    info.acctId=data{i,4};
-    info.offerStatus='1';
-    MMS_ModifyOrderStatus2(info);
-end
-
-% --- Executes on button press in MMSStopAll.
-function MMSStopAll_Callback(hObject, eventdata, handles)
-% hObject    handle to MMSStopAll (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-load('d:\work\FundMonitorParallel\appdata\Data.mat')
-ch=char(data(:,1));
-lia=ismember(cellstr(ch(:,1:3)),{'511' '518'});
-data(lia,:)=[];
-for i=length(data(:,1))
-    info.stkId=data{i,1};
-    info.acctId=data{i,4};
-    info.offerStatus='0';
-    MMS_ModifyOrderStatus2(info);
-end
-
 % --- Executes on button press in IncSell.
 function IncSell_Callback(hObject, eventdata, handles)
 % hObject    handle to IncSell (see GCBO)
@@ -607,3 +604,79 @@ function DecBuyBatch_Callback(hObject, eventdata, handles)
 % hObject    handle to DecBuyBatch (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+
+function SellIncrement_Callback(hObject, eventdata, handles)
+% hObject    handle to SellIncrement (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of SellIncrement as text
+%        str2double(get(hObject,'String')) returns contents of SellIncrement as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function SellIncrement_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to SellIncrement (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function BuyIncrement_Callback(hObject, eventdata, handles)
+% hObject    handle to BuyIncrement (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of BuyIncrement as text
+%        str2double(get(hObject,'String')) returns contents of BuyIncrement as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function BuyIncrement_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to BuyIncrement (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in SetBatch.
+function SetBatch_Callback(hObject, eventdata, handles)
+% hObject    handle to SetBatch (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function BatchName_Callback(hObject, eventdata, handles)
+% hObject    handle to BatchName (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of BatchName as text
+%        str2double(get(hObject,'String')) returns contents of BatchName as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function BatchName_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to BatchName (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
