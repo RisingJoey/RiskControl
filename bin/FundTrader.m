@@ -52,8 +52,8 @@ function FundTrader_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   unrecognized PropertyName/PropertyValue pairs from the
 %            command line (see VARARGIN)
-SysInit
-SysConnect
+%SysInit
+%SysConnect
 
 try
     m=load('D:\work\FundMonitorParallel\appdata\Data.mat');
@@ -68,6 +68,10 @@ try
     end
 catch ex
 end
+
+%基金类别
+load('..\appdata\FundInfo.mat');
+handles.FundInfo = FundInfo;
 
 %合约、上下限
 Basis.ihCont = get(handles.IHCont, 'String');
@@ -177,14 +181,17 @@ function FigFundTrader_CloseRequestFcn(hObject, eventdata, handles)
 if isfield(handles, 'timer') && isvalid(handles.timer)
     stop(handles.timer);
 end
-load('D:\work\FundMonitorParallel\appdata\StkAcct.mat');
-load('..\appdata\Data.mat');
-acctId=unique(data(:,4));
-[lia locb]=ismember(acctId,StkAcct(:,1));
-for i=1:length(acctId)
-    AcctLogout(acctId{i},StkAcct{locb(i),2});
+try
+    load('D:\work\FundMonitorParallel\appdata\StkAcct.mat');
+    load('..\appdata\Data.mat');
+    acctId=unique(data(:,4));
+    [lia locb]=ismember(acctId,StkAcct(:,1));
+    for i=1:length(acctId)
+        AcctLogout(acctId{i},StkAcct{locb(i),2});
+    end
+catch ex
 end
-SysDisconnect
+%SysDisconnect
 delete(hObject);
 
 % --- Executes on button press in StartMonitor.
@@ -657,6 +664,33 @@ function SetBatch_Callback(hObject, eventdata, handles)
 % hObject    handle to SetBatch (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+h = openfig('FundConfig.fig','reuse');
+set(h, 'Name', '基金信息');
+hs = guihandles(h);
+load('..\appdata\FundInfo.mat');
+hs.FundInfo=FundInfo;
+num=length(FundInfo);
+info=struct2cell(FundInfo)';
+loops=floor(num/20); remains=loops*20+1;
+data=[];
+for i=1:loops
+    bi=(i-1)*20+1; ei=i*20;
+    data=[data info(bi:ei,:)];
+end
+if remains<=num
+    data=[data [info(remains:end,:);cell((loops+1)*20-num,2)]];
+end
+set(hs.FundList,'Data',data);
+guidata(h, hs);
+uiwait(h);
+hs = guidata(h);
+if isfield(hs,'changed')
+    FundInfo = hs.FundInfo;
+    save('..\appdata\FundInfo.mat', 'FundInfo');
+    handles.FundInfo = FundInfo;
+    guidata(hObject, handles);
+end
+delete(h);
 
 
 
