@@ -52,12 +52,18 @@ function FundTrader_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   unrecognized PropertyName/PropertyValue pairs from the
 %            command line (see VARARGIN)
-%SysInit
-%SysConnect
+SysInit
+SysConnect
 
 try
     m=load('D:\work\FundMonitorParallel\appdata\Data.mat');
     data=m.data(:,[1:4 7:13]);
+    ratio=zeros(size(data,1),4);
+    adjust=cell2mat(m.data(:,40:45));
+    iopv=cell2mat(m.data(:,8));
+    nume=[adjust(:,2)-adjust(:,1) adjust(:,3:4)*0.21 -adjust(:,5)*0.19]; deno=adjust(:,6).*iopv;
+    ratio=nume./repmat(deno,[1 4])*100;
+    data(:,8:11)=num2cell(ratio);
     set(handles.FundMonitor, 'Data', data);
     save('..\appdata\Data.mat','data')
     load('D:\work\FundMonitorParallel\appdata\StkAcct.mat');
@@ -103,40 +109,53 @@ guidata(hObject, handles);
 
 % 定时查询基金价格、净值，刷新表格
 function hedge_callback(hObject, eventdata, handles)
-%tic;
-t=datevec(SysCurrentTime); dv=datevec(t); %当前时间
+tic;
+    disp('time')
+t=SysCurrentTime; dv=datevec(t); %当前时间
 sec=dv(4)*3600+dv(5)*60;
-if sec<34200||sec>54000 % <9:30||>15:00
-    set(handles.StartMonitor, 'Enable', 'on');
-    set(handles.StopMonitor, 'Enable', 'off');
-    set(handles.ArbiTrade, 'Enable', 'off');
-    set(handles.StopTrade, 'Enable', 'off');
-    stop(hObject); %如不停止，则可24小时运行
-    return;
-end
-if sec>41400&&sec<46800 % 11:30< && <13:00
-    return;
-end
+% if sec<34200||sec>54000 % <9:30||>15:00
+%     set(handles.StartMonitor, 'Enable', 'on');
+%     set(handles.StopMonitor, 'Enable', 'off');
+%     set(handles.ArbiTrade, 'Enable', 'off');
+%     set(handles.StopTrade, 'Enable', 'off');
+%     stop(hObject); %如不停止，则可24小时运行
+%     return;
+% end
+% if sec>41400&&sec<46800 % 11:30< && <13:00
+%     return;
+% end
 
 try
-    
+    disp('data')
     m=load('D:\work\FundMonitorParallel\appdata\Data.mat');
-    data=m.data(:,[1:4 7:13]);
+    data=m.data(:,[1:4 7:15]);
+    ratio=zeros(size(data,1),4);
+    adjust=cell2mat(m.data(:,40:45));
+    iopv=cell2mat(m.data(:,8));
+    nume=[adjust(:,2)-adjust(:,1) adjust(:,3:4)*0.21 -adjust(:,5)*0.19]; deno=adjust(:,6).*iopv;
+    ratio=nume./repmat(deno,[1 4])*100;
+    data(:,8:11)=num2cell(ratio);
     acctId=unique(m.data(:,4));
-    for i=length(acctId)
+    data(:,12:13)={0};
+    for i=1:length(acctId)
         info.acctId=acctId{i};
         model=MMS_GetMarketMakerPriceModel2(info);
+        increment=[{model.stkId}' {model.buyPriceIncrement2}' {model.sellPriceIncrement2}'];
+        [lia locb]=ismember(strcat(data(:,1),data(:,4)),strcat(increment(:,1),acctId(i)));
+        data(lia,12:13)=increment(locb(lia),2:3);
     end
 
+    disp('basis')
     %指数价格
-    %         indexId = {'000300','000905','000016','000010','000018','000825','000852','000860','000865','399330','399967','399975'};
-    %         indexList = struct('exchId',{'0','0','0','0','0','0','0','0','0','1','1','1'}, 'stkId', indexId);
-    %         quota = StkQuotaList(indexList);
-    %         idxPrice = {quota.newPrice};
-    %         idxClose = {quota.closePrice};
-    %         [lia locb] = ismember(data(1:end-1,15),indexId);
-    %         data(lia,30) = idxPrice(locb(lia));
-    %         data(lia,31) = idxClose(locb(lia));
+    indexId = {'000016','000300','000905'};
+    exchId = {'0','0','0'};
+    indexList = struct('exchId',exchId, 'stkId', indexId);
+    quotaS = StkQuotaList(indexList);
+    idxPrice = [quotaS.newPrice];
+    futId={handles.Basis.ihCont,handles.Basis.ifCont,handles.Basis.icCont};
+    quotaF = FutQuotaList('F',futId);
+    futPrice = [quotaF.newPrice];
+    basis=futPrice-idxPrice;
     
     t=toc;
     disp(['Time elapsed ' num2str(t) 's']);
@@ -247,7 +266,7 @@ if isfield(handles,'selected')
     info.stkId=data(handles.selected,1);
     info.acctId=data(handles.selected,4);
     info.offerStatus='1';
-    MMS_ModifyOrderStatus2(info);
+    %MMS_ModifyOrderStatus2(info);
 end
 
 % --- Executes on button press in MMSStop.
@@ -260,7 +279,7 @@ if isfield(handles,'selected')
     info.stkId=data(handles.selected,1);
     info.acctId=data(handles.selected,4);
     info.offerStatus='0';
-    MMS_ModifyOrderStatus2(info);
+    %MMS_ModifyOrderStatus2(info);
 end
 
 
@@ -276,6 +295,7 @@ data(lia,:)=[];
 for i=length(data(:,1))
     info.stkId=data{i,1};
     info.acctId=data{i,4};
+    info.optId='88240';
     info.offerStatus='1';
     MMS_ModifyOrderStatus2(info);
 end
@@ -292,6 +312,7 @@ data(lia,:)=[];
 for i=length(data(:,1))
     info.stkId=data{i,1};
     info.acctId=data{i,4};
+    info.optId='88240';
     info.offerStatus='0';
     MMS_ModifyOrderStatus2(info);
 end
